@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Leo">
+  <defs>
+    <linearGradient id="bg" x1="8" y1="6" x2="56" y2="58" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" />
+      <stop offset="0.38" stop-color="#dff6ff" />
+      <stop offset="1" stop-color="#1687f2" />
+    </linearGradient>
+  </defs>
+
+  <rect width="64" height="64" rx="16" fill="url(#bg)" />
+  <rect x="4" y="4" width="56" height="56" rx="14" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2" />
+  <text
+    x="32"
+    y="41"
+    fill="#0f4fc7"
+    font-family="Inter, Avenir Next, Segoe UI, Arial, sans-serif"
+    font-size="23"
+    font-weight="850"
+    letter-spacing="-1.4"
+    text-anchor="middle"
+  >LEO</text>
+</svg>

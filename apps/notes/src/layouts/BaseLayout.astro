@@ -1,0 +1,46 @@
+---
+import '../styles/global.css'
+import type { DomainNavItem } from '../content'
+
+interface Props {
+  currentPath?: string
+  domains: DomainNavItem[]
+  title?: string
+}
+
+const { currentPath = Astro.url.pathname, domains, title = 'Front Notes' } = Astro.props
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="前端学习笔记与交互 demo 内容站" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <div class="site-header-inner">
+          <a class="brand" href="/">
+            <img class="brand-mark" src="/favicon.svg" alt="" aria-hidden="true" />
+            <span>
+              <span class="brand-title">Front Notes</span>
+              <span class="brand-subtitle">Learning System</span>
+            </span>
+          </a>
+          <nav class="top-nav" aria-label="Primary">
+            {domains.map((domain) => (
+              <a class={currentPath.startsWith(domain.entryPath) ? 'is-active' : ''} href={domain.entryPath}>
+                {domain.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      </header>
+      <slot />
+    </div>
+  </body>
+</html>

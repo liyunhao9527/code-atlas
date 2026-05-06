@@ -1,0 +1,27 @@
+---
+title: DOM 事件流
+summary: 用最小交互验证捕获、目标阶段和冒泡到底是怎样发生的。
+domain: javascript
+domainLabel: JavaScript
+group: browser
+groupLabel: 浏览器与 DOM
+order: 10
+---
+
+import { EventFlowDemo } from '@learn/demos-react/javascript'
+
+## 学习重点
+
+不要只背“事件会冒泡”，而要亲手验证从外到内捕获、从内到外冒泡的顺序。
+
+以后做事件委托时，这个理解会直接变成工程能力。
+
+## 交互观察
+
+<EventFlowDemo client:load />
+
+## 复盘问题
+
+- 捕获阶段和冒泡阶段分别适合处理什么问题？
+- 如果中途调用 `stopPropagation()`，后续日志会发生什么变化？
+- 事件委托为什么通常绑定在更外层的节点上？

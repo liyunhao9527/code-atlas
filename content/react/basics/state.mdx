@@ -1,0 +1,27 @@
+---
+title: State & 生命周期
+summary: 聚焦状态驱动 UI 的最小闭环：数据变化、重新渲染、以及组件更新节奏。
+domain: react
+domainLabel: React
+group: basics
+groupLabel: 基础知识
+order: 1
+---
+
+import { StateCounterDemo } from '@learn/demos-react/react'
+
+## 为什么先学 state
+
+大多数交互本质上都在处理“数据变了，界面怎么跟着变”。
+
+只要把 state 理顺，后面的表单、异步请求、缓存和组件通信都会更容易理解。
+
+## 交互观察
+
+<StateCounterDemo client:load />
+
+## 写笔记时建议记录
+
+- 哪些状态是页面级的
+- 哪些状态只属于单个组件
+- 哪些值其实可以从其他状态推导

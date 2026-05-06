@@ -1,0 +1,31 @@
+---
+title: 变量与作用域
+summary: 记录 var、let、const 的差异，以及函数作用域和块级作用域的直觉。
+domain: javascript
+domainLabel: JavaScript
+group: basics
+groupLabel: JavaScript 基础
+order: 1
+---
+
+## 建议记录什么
+
+重点记住变量声明方式会怎样影响可见范围、提升行为和重复声明。
+
+- 为什么尽量优先用 `const`
+- `let` 和块级作用域的关系
+- `var` 为什么容易制造意外
+
+## 最小观察
+
+```js
+if (true) {
+  var legacyName = 'var'
+  let blockName = 'let'
+}
+
+console.log(legacyName)
+console.log(blockName)
+```
+
+这段代码适合用来验证：`var` 更像函数级作用域，`let` 和 `const` 会被限制在块级作用域里。

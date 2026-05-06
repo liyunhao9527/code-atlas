@@ -1,0 +1,21 @@
+---
+title: 泛型入门
+summary: 记录如何在保留类型信息的同时复用函数、组件和工具类型。
+domain: typescript
+domainLabel: TypeScript
+group: advanced
+groupLabel: 类型系统
+order: 20
+---
+
+## 核心问题
+
+泛型解决的是：逻辑可以复用，但类型不应该丢失。
+
+```ts
+function wrap<T>(value: T) {
+  return { value }
+}
+```
+
+调用 `wrap('hello')` 后，返回值里的 `value` 仍然是 `string`，而不是模糊的 `unknown`。

@@ -1,0 +1,27 @@
+{
+  "name": "@learn/workspace",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.0.4",
+  "engines": {
+    "node": ">=20.19.0",
+    "pnpm": ">=11.0.4"
+  },
+  "scripts": {
+    "dev": "turbo dev --filter=@learn/notes",
+    "dev:all": "turbo dev",
+    "dev:notes": "turbo dev --filter=@learn/notes",
+    "build": "turbo build",
+    "build:notes": "turbo build --filter=@learn/notes",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "turbo": "^2.9.8"
+  }
+}

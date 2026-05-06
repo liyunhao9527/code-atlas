@@ -1,0 +1,68 @@
+---
+title: 函数与闭包
+summary: 把函数调用、作用域链、闭包保存变量这三件事串起来，而不是孤立地背概念。
+domain: javascript
+domainLabel: JavaScript
+group: basics
+groupLabel: JavaScript 基础
+order: 2
+---
+
+import { ClosureCounterDemo } from '@learn/demos-react/javascript'
+
+## 先用自己的话解释
+
+函数不只是复用代码的工具，它还会创建自己的执行上下文。
+
+每次调用函数时，JavaScript 都会准备参数、局部变量，以及它可以访问到的外层作用域。
+
+闭包可以先理解成：
+
+> 一个函数即使离开了定义时的位置，仍然记得它创建时能访问到的外部变量。
+
+## 最小代码片段
+
+可以从计数器例子开始观察闭包。外层函数负责创建变量，内层函数负责继续使用这个变量，所以多次调用内层函数时，`count` 不会被重置。
+
+```js
+function outer() {
+  let count = 0
+
+  return function inner() {
+    count += 1
+    return count
+  }
+}
+
+const add = outer()
+
+add() // 1
+add() // 2
+```
+
+这个例子里有三个点值得记录：
+
+- `outer` 函数调用后返回 `inner` 函数
+- `inner` 函数仍然能访问 `count`
+- 不同的 `outer()` 调用会创建彼此独立的 `count`
+
+## 交互观察
+
+<ClosureCounterDemo client:load />
+
+## 容易踩坑的地方
+
+闭包保存的是变量本身的引用关系，不是简单复制一份值。循环、异步回调、事件监听里如果变量会继续变化，就要特别注意最终读到的值。
+
+- `for` 循环里 `var` 和 `let` 的差异
+- 回调函数读取外层变量的时机
+- 不再需要的监听器要及时移除
+
+## 复盘问题
+
+学完后可以问自己：
+
+- 这个函数为什么还能访问外部变量？
+- 这个变量什么时候创建？
+- 这个变量什么时候会被释放？
+- 如果我再创建一个函数实例，它们共享状态还是各有一份？

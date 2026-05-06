@@ -1,0 +1,37 @@
+---
+import { getCollection, render } from 'astro:content'
+import { buildDomains, getDomainByKey, getNoteHref } from '../content'
+import ModuleLayout from '../layouts/ModuleLayout.astro'
+
+export async function getStaticPaths() {
+  const notes = await getCollection('notes')
+
+  return notes.map((note) => ({
+    params: { slug: note.id },
+    props: { note },
+  }))
+}
+
+const { note } = Astro.props
+const notes = await getCollection('notes')
+const domains = buildDomains(notes)
+const domain = getDomainByKey(domains, note.data.domain)
+const { Content } = await render(note)
+
+if (!domain) {
+  throw new Error(`Missing domain for ${note.id}`)
+}
+---
+
+<ModuleLayout currentPath={getNoteHref(note)} domain={domain} domains={domains} title={`${note.data.title} | Front Notes`}>
+  <article class="content-card">
+    <header class="note-header">
+      <span class="kicker">{note.data.domainLabel} / {note.data.groupLabel}</span>
+      <h1>{note.data.title}</h1>
+      <p class="note-summary">{note.data.summary}</p>
+    </header>
+    <div class="note-body">
+      <Content />
+    </div>
+  </article>
+</ModuleLayout>

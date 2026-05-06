@@ -1,0 +1,20 @@
+---
+title: 本地存储
+summary: 记录 localStorage、sessionStorage 和 Cookie 的差异，以及它们在浏览器里的适用边界。
+domain: javascript
+domainLabel: JavaScript
+group: browser
+groupLabel: 浏览器与 DOM
+order: 11
+---
+
+## 核心理解
+
+本地存储不是“把数据放到浏览器里”这么简单。更重要的是确认数据生命周期、容量限制、是否会随请求发送，以及是否适合保存敏感信息。
+
+## 建议记录
+
+- `localStorage` 的数据什么时候清理
+- `sessionStorage` 和标签页生命周期的关系
+- Cookie 为什么会影响请求
+- 为什么敏感 token 的存放需要额外谨慎

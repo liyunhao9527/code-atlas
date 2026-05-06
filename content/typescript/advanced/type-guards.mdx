@@ -1,0 +1,27 @@
+---
+title: 类型守卫
+summary: 练习如何根据运行时判断来缩小联合类型的范围。
+domain: typescript
+domainLabel: TypeScript
+group: advanced
+groupLabel: 类型系统
+order: 21
+---
+
+import { TypeGuardDemo } from '@learn/demos-react/typescript'
+
+## 为什么重要
+
+真实业务里很多值都来自表单、接口和 URL，它们一开始常常是不确定的。
+
+类型守卫让运行时判断和静态类型收窄形成闭环。
+
+## 交互观察
+
+<TypeGuardDemo client:load />
+
+## 建议记录
+
+- `typeof` 适合判断哪些基础类型
+- `Array.isArray` 为什么比直接判断对象更明确
+- 自定义类型谓词什么时候值得写

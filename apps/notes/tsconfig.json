@@ -1,0 +1,14 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@learn/demos-react": ["../../packages/demos-react/src/index.ts"],
+      "@learn/demos-react/javascript": ["../../packages/demos-react/src/javascript/index.ts"],
+      "@learn/demos-react/react": ["../../packages/demos-react/src/react/index.ts"],
+      "@learn/demos-react/typescript": ["../../packages/demos-react/src/typescript/index.ts"]
+    }
+  },
+  "include": [".astro/types.d.ts", "**/*"],
+  "exclude": ["dist"]
+}

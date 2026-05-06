@@ -1,0 +1,23 @@
+---
+title: 联合类型
+summary: 用联合类型表达一个值可能处在的几种明确状态。
+domain: typescript
+domainLabel: TypeScript
+group: basics
+groupLabel: TypeScript 基础
+order: 2
+---
+
+## 核心理解
+
+联合类型适合描述“可能是 A，也可能是 B”的值。它不是放松约束，而是把可能性显式写出来。
+
+```ts
+type LoadingState = 'idle' | 'loading' | 'success' | 'error'
+```
+
+## 复盘问题
+
+- 这个联合类型有没有覆盖所有真实状态？
+- 是否需要加一个 `kind` 字段做可辨识联合？
+- 调用方能不能根据类型安全地缩小范围？
