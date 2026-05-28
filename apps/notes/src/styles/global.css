@@ -1,3 +1,6 @@
+@import 'tailwindcss';
+@source '../../../../content';
+
 :root {
   --font-sans: Inter, 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
   --font-serif: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
@@ -35,8 +38,7 @@ body {
   min-width: 320px;
   margin: 0;
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(246, 248, 251, 0.96)),
-    var(--page-bg);
+    linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(246, 248, 251, 0.96)), var(--page-bg);
 }
 
 a {
@@ -238,8 +240,7 @@ blockquote {
   border: 1px solid var(--border);
   border-radius: 10px;
   background:
-    linear-gradient(135deg, rgba(23, 105, 224, 0.09), rgba(27, 138, 90, 0.08)),
-    var(--surface);
+    linear-gradient(135deg, rgba(23, 105, 224, 0.09), rgba(27, 138, 90, 0.08)), var(--surface);
   box-shadow: var(--shadow);
 }
 

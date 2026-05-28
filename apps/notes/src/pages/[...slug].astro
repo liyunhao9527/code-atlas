@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content'
+
 import { buildDomains, getDomainByKey, getNoteHref } from '../content'
 import ModuleLayout from '../layouts/ModuleLayout.astro'
 
@@ -7,7 +8,7 @@ export async function getStaticPaths() {
   const notes = await getCollection('notes')
 
   return notes.map((note) => ({
-    params: { slug: note.id },
+    params: { slug: getNoteHref(note).slice(1) },
     props: { note },
   }))
 }
@@ -23,7 +24,12 @@ if (!domain) {
 }
 ---
 
-<ModuleLayout currentPath={getNoteHref(note)} domain={domain} domains={domains} title={`${note.data.title} | Front Notes`}>
+<ModuleLayout
+  currentPath={getNoteHref(note)}
+  domain={domain}
+  domains={domains}
+  title={`${note.data.title} | Front Notes`}
+>
   <article class="content-card">
     <header class="note-header">
       <span class="kicker">{note.data.domainLabel} / {note.data.groupLabel}</span>

@@ -24,7 +24,11 @@ export function TypeGuardDemo() {
         <h3>根据运行时判断缩小类型范围</h3>
       </div>
       <div className="demo-actions">
-        <input className="demo-input" value={input} onChange={(event) => setInput(event.target.value)} />
+        <input
+          className="demo-input"
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+        />
         <button
           className="demo-button"
           type="button"

@@ -29,7 +29,11 @@ export function ClosureCounterDemo() {
       </button>
       <ol className="demo-log">
         {values.length > 0 ? (
-          values.map((value, index) => <li key={`${value}-${index}`}>第 {values.length - index} 次结果：{value}</li>)
+          values.map((value, index) => (
+            <li key={`${value}-${index}`}>
+              第 {values.length - index} 次结果：{value}
+            </li>
+          ))
         ) : (
           <li>先点击按钮运行一次。</li>
         )}

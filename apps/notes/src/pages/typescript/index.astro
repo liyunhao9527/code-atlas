@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content'
+
 import { buildDomains, getDomainByKey } from '../../content'
 import ModuleLayout from '../../layouts/ModuleLayout.astro'
 
@@ -20,16 +21,20 @@ if (!domain) {
       <p class="note-summary">{domain.description}</p>
     </header>
     <div class="note-body module-home-grid">
-      {domain.groups.map((group) => (
-        <section>
-          <h2>{group.label}</h2>
-          <ul class="topic-list">
-            {group.topics.map((topic) => (
-              <li><a href={topic.href}>{topic.title}</a></li>
-            ))}
-          </ul>
-        </section>
-      ))}
+      {
+        domain.groups.map((group) => (
+          <section>
+            <h2>{group.label}</h2>
+            <ul class="topic-list">
+              {group.topics.map((topic) => (
+                <li>
+                  <a href={topic.href}>{topic.title}</a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
     </div>
   </section>
 </ModuleLayout>

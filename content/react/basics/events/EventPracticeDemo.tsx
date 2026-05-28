@@ -14,18 +14,34 @@ export function EventPracticeDemo() {
         <h3>把用户动作变成状态变化</h3>
       </div>
       <div className="demo-actions">
-        <button className="demo-button secondary" type="button" onClick={() => pushLog('触发了 click')}>
+        <button
+          className="demo-button secondary"
+          type="button"
+          onClick={() => pushLog('触发了 click')}
+        >
           click
         </button>
-        <button className="demo-button secondary" type="button" onMouseEnter={() => pushLog('触发了 mouseenter')}>
+        <button
+          className="demo-button secondary"
+          type="button"
+          onMouseEnter={() => pushLog('触发了 mouseenter')}
+        >
           mouseenter
         </button>
-        <button className="demo-button secondary" type="button" onFocus={() => pushLog('触发了 focus')}>
+        <button
+          className="demo-button secondary"
+          type="button"
+          onFocus={() => pushLog('触发了 focus')}
+        >
           focus
         </button>
       </div>
       <ol className="demo-log">
-        {log.length > 0 ? log.map((item) => <li key={item.id}>{item.message}</li>) : <li>先点击或聚焦按钮。</li>}
+        {log.length > 0 ? (
+          log.map((item) => <li key={item.id}>{item.message}</li>)
+        ) : (
+          <li>先点击或聚焦按钮。</li>
+        )}
       </ol>
     </div>
   )

@@ -1,1 +1,0 @@
-export { TypeGuardDemo } from './TypeGuardDemo'

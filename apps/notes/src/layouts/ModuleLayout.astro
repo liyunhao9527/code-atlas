@@ -1,6 +1,6 @@
 ---
-import BaseLayout from './BaseLayout.astro'
 import type { DomainNavItem } from '../content'
+import BaseLayout from './BaseLayout.astro'
 
 interface Props {
   currentPath?: string
@@ -15,16 +15,18 @@ const { currentPath = Astro.url.pathname, domain, domains, title } = Astro.props
 <BaseLayout currentPath={currentPath} domains={domains} title={title}>
   <div class="module-shell">
     <aside class="sidebar">
-      {domain.groups.map((group) => (
-        <section class="side-group">
-          <h2>{group.label}</h2>
-          {group.topics.map((topic) => (
-            <a class={currentPath === topic.href ? 'is-active' : ''} href={topic.href}>
-              {topic.title}
-            </a>
-          ))}
-        </section>
-      ))}
+      {
+        domain.groups.map((group) => (
+          <section class="side-group">
+            <h2>{group.label}</h2>
+            {group.topics.map((topic) => (
+              <a class={currentPath === topic.href ? 'is-active' : ''} href={topic.href}>
+                {topic.title}
+              </a>
+            ))}
+          </section>
+        ))
+      }
     </aside>
 
     <main class="module-main">

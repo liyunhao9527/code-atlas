@@ -5,7 +5,7 @@
 它不是 Astro 学习模块，而是整个项目的内容渲染层：
 
 - `content/` 写笔记
-- `packages/demos-react/` 放 MDX 可引用的 React demo
+- 文章专属 React demo 和对应 `index.mdx` 放在同一个文章目录
 - `apps/notes/` 负责布局、路由、导航和构建
 
 常用命令：

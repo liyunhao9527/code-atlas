@@ -13,15 +13,28 @@
     "dev:notes": "turbo dev --filter=@learn/notes",
     "build": "turbo build",
     "build:notes": "turbo build --filter=@learn/notes",
-    "lint": "turbo lint",
+    "lint": "eslint . && turbo lint",
+    "lint:fix": "eslint . --fix",
     "typecheck": "turbo typecheck",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
     "@ianvs/prettier-plugin-sort-imports": "^4.7.1",
+    "@types/react": "^19.2.14",
+    "cross-env": "^10.1.0",
+    "eslint": "^10.4.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-astro": "^1.7.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^17.6.0",
     "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "turbo": "^2.9.8"
+    "react": "^19.2.5",
+    "turbo": "^2.9.8",
+    "typescript": "~6.0.3",
+    "typescript-eslint": "^8.60.0"
   }
 }

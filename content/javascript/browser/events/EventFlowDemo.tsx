@@ -32,7 +32,11 @@ export function EventFlowDemo() {
         </div>
       </div>
       <ol className="demo-log">
-        {logs.length > 0 ? logs.map((item, index) => <li key={`${item}-${index}`}>{item}</li>) : <li>等待点击。</li>}
+        {logs.length > 0 ? (
+          logs.map((item, index) => <li key={`${item}-${index}`}>{item}</li>)
+        ) : (
+          <li>等待点击。</li>
+        )}
       </ol>
     </div>
   )

@@ -6,9 +6,15 @@
 
 - 使用 `.mdx` 写文章
 - 用 frontmatter 描述标题、摘要、技术域、分组和排序
-- 需要交互时，从 `@learn/demos-react` 引入 React 组件
+- 需要交互时，把 React demo 放在文章目录里，再从 MDX 相对引入
 
 示例：
+
+```text
+content/javascript/basics/functions/
+  index.mdx
+  ClosureCounterDemo.tsx
+```
 
 ```mdx
 ---
@@ -21,7 +27,7 @@ groupLabel: JavaScript 基础
 order: 2
 ---
 
-import { ClosureCounterDemo } from '@learn/demos-react/javascript'
+import { ClosureCounterDemo } from './ClosureCounterDemo'
 
 ## 交互观察
 

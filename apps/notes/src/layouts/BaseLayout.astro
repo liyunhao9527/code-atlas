@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css'
+
 import type { DomainNavItem } from '../content'
 
 interface Props {
@@ -32,11 +33,16 @@ const { currentPath = Astro.url.pathname, domains, title = 'Front Notes' } = Ast
             </span>
           </a>
           <nav class="top-nav" aria-label="Primary">
-            {domains.map((domain) => (
-              <a class={currentPath.startsWith(domain.entryPath) ? 'is-active' : ''} href={domain.entryPath}>
-                {domain.label}
-              </a>
-            ))}
+            {
+              domains.map((domain) => (
+                <a
+                  class={currentPath.startsWith(domain.entryPath) ? 'is-active' : ''}
+                  href={domain.entryPath}
+                >
+                  {domain.label}
+                </a>
+              ))
+            }
           </nav>
         </div>
       </header>

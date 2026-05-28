@@ -18,11 +18,20 @@ export function StateCounterDemo() {
         </div>
         <label className="demo-field">
           步长
-          <input min="1" type="number" value={step} onChange={(event) => setStep(Number(event.target.value) || 1)} />
+          <input
+            min="1"
+            type="number"
+            value={step}
+            onChange={(event) => setStep(Number(event.target.value) || 1)}
+          />
         </label>
       </div>
       <div className="demo-actions">
-        <button className="demo-button" type="button" onClick={() => setCount((value) => value + step)}>
+        <button
+          className="demo-button"
+          type="button"
+          onClick={() => setCount((value) => value + step)}
+        >
           增加
         </button>
         <button className="demo-button secondary" type="button" onClick={() => setCount(0)}>
