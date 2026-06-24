@@ -2,6 +2,12 @@
 
 前端学习笔记 monorepo，主站使用 Astro + React + MDX + Tailwind CSS 渲染笔记内容。
 
+## Agent 文档同步
+
+本仓库同时维护 `AGENTS.md` 和 `CLAUDE.md`。
+
+如果更新其中一个文件里的项目约定、内容结构、常用命令、架构说明或 agent 工作规则，必须在同一次改动中同步更新另一个文件。
+
 ## 技术栈
 
 - **主站**：Astro 6 + React 19 + MDX + Tailwind CSS 4
@@ -25,6 +31,7 @@
 - `content/` 是真正的内容仓库，`apps/notes` 只是渲染器
 - 产品命名不绑定框架：`apps/notes` 而非 `apps/astro`
 - 内容优先：笔记正文不再写进 TypeScript 对象
+- TypeScript 栏目首页由 `content/typescript/learning-roadmap.ts` 驱动；调整学习路线、阶段顺序、推荐主题或 demo 想法时优先更新这个文件
 
 ## 内容组织
 
@@ -47,15 +54,29 @@ content
 ### 文件组织
 
 - **纯笔记**：`content/{domain}/{group}/file.mdx`
-- **带交互 demo 的笔记**：`content/{domain}/{group}/topic/index.mdx` + 同目录下的 `.tsx` demo 文件
+- **带交互 demo 的笔记**：`content/{domain}/{group}/topic/` 一个知识点一个目录
+- 新增带 demo 的知识点时，默认使用 `note.mdx`、`demo.tsx`、`examples.ts` 三个文件
 
 示例：
 
 ```
-content/react/basics/state/
-  index.mdx
-  StateCounterDemo.tsx
+content/typescript/basics/literal-types/
+  note.mdx      # 笔记正文和 demo 引入
+  demo.tsx      # 交互组件
+  examples.ts   # 类型、示例数据、可复用示例代码
 ```
+
+学习主题遵循这个闭环：
+
+```
+概念笔记 -> 纯 TypeScript 示例 -> 交互 demo -> 复盘总结
+```
+
+三个文件的职责：
+
+- `note.mdx`：解释概念、总结取舍、记录复盘问题
+- `examples.ts`：写纯 TypeScript 练习代码、类型、工具函数、示例数据和可复用示例
+- `demo.tsx`：把示例变成交互 React demo；需要时从 `examples.ts` 引入类型、数据和工具函数
 
 ### MDX Frontmatter 规范
 
@@ -76,20 +97,39 @@ order: 数字，决定排序
 ### 交互 Demo
 
 - 文章专属 demo 放在**同一目录**，由 MDX 相对引用
+- demo 文件统一命名为 `demo.tsx`，组件名仍使用 PascalCase，如 `LiteralTypesDemo`
+- 示例类型、固定选项、示例数据优先放在 `examples.ts`
 - React 组件使用 `client:load` 指令在 Astro 中激活交互
 
 ```mdx
-import { ClosureCounterDemo } from './ClosureCounterDemo'
+import { LiteralTypesDemo } from './demo'
 
-<ClosureCounterDemo client:load />
+<LiteralTypesDemo client:load />
 ```
 
 ## 编码约定
 
 - 使用 TypeScript，`strict` 模式
-- 组件文件：PascalCase（如 `StateCounterDemo.tsx`）
+- 内容 demo 文件：`demo.tsx`
+- React 组件名：PascalCase（如 `LiteralTypesDemo`）
 - 工具/类型文件：camelCase
 - 根 `tsconfig.json` 仅包含路径映射，实际编译配置在 `tsconfig.base.json`
+
+## 样式约定
+
+- 项目支持 Tailwind CSS 和 Sass
+- 全站通用样式放在 `apps/notes/src/styles/global.css`
+- 页面专属且原生 CSS 写起来过长的样式，优先使用 Astro scoped style：
+
+```astro
+<style lang="scss">
+  .page-block {
+    &__item {
+      color: var(--text);
+    }
+  }
+</style>
+```
 
 ## 常用命令
 

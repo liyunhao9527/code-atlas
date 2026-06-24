@@ -8,6 +8,8 @@ groupLabel: TypeScript 基础
 order: 2
 ---
 
+import { UnionsDemo } from './demo'
+
 ## 核心理解
 
 联合类型适合描述“可能是 A，也可能是 B”的值。它不是放松约束，而是把可能性显式写出来。
@@ -15,6 +17,12 @@ order: 2
 ```ts
 type LoadingState = 'idle' | 'loading' | 'success' | 'error'
 ```
+
+联合类型经常和字面量类型一起出现：字面量负责固定取值，联合类型负责把多个可能取值组合起来。
+
+## 交互观察
+
+<UnionsDemo client:load />
 
 ## 复盘问题
 

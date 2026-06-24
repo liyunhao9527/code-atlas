@@ -15,6 +15,12 @@ const { currentPath = Astro.url.pathname, domain, domains, title } = Astro.props
 <BaseLayout currentPath={currentPath} domains={domains} title={title}>
   <div class="module-shell">
     <aside class="sidebar">
+      <nav class="side-home">
+        <a class={currentPath === domain.entryPath ? 'is-active' : ''} href={domain.entryPath}>
+          <span>Module Home</span>
+          <strong>{domain.label}</strong>
+        </a>
+      </nav>
       {
         domain.groups.map((group) => (
           <section class="side-group">

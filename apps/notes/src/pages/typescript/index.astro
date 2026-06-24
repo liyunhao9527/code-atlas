@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 
+import { typescriptRoadmap } from '../../../../../content/typescript/learning-roadmap'
 import { buildDomains, getDomainByKey } from '../../content'
 import ModuleLayout from '../../layouts/ModuleLayout.astro'
 
@@ -20,21 +21,236 @@ if (!domain) {
       <h1>{domain.label}</h1>
       <p class="note-summary">{domain.description}</p>
     </header>
-    <div class="note-body module-home-grid">
-      {
-        domain.groups.map((group) => (
-          <section>
-            <h2>{group.label}</h2>
-            <ul class="topic-list">
-              {group.topics.map((topic) => (
-                <li>
-                  <a href={topic.href}>{topic.title}</a>
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))
-      }
+    <div class="note-body">
+      <section class="roadmap-hero">
+        <div>
+          <p class="demo-eyebrow">Roadmap</p>
+          <h2>{typescriptRoadmap.title}</h2>
+          <p>{typescriptRoadmap.intro}</p>
+        </div>
+        <ol class="roadmap-order">
+          {
+            typescriptRoadmap.recommendedOrder.map((topic) => (
+              <li>
+                <code>{topic.id}</code>
+                <span>{topic.label}</span>
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <section class="roadmap-section">
+        <h2>学习主线</h2>
+        <div class="roadmap-grid">
+          {
+            typescriptRoadmap.stages.map((stage, index) => (
+              <article class="roadmap-stage">
+                <span class="roadmap-index">{String(index + 1).padStart(2, '0')}</span>
+                <h3>{stage.title}</h3>
+                <p>{stage.goal}</p>
+                <div class="roadmap-list">
+                  <strong>建议主题</strong>
+                  <ul>
+                    {stage.topics.map((topic) => (
+                      <li>
+                        <code>{topic.id}</code>
+                        <span>{topic.label}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div class="roadmap-list">
+                  <strong>适合 demo</strong>
+                  <ul>
+                    {stage.demos.map(demo => (
+                      <li>{demo}</li>
+                    ))}
+                  </ul>
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      </section>
+
+      <section class="roadmap-section">
+        <h2>每个知识点先回答</h2>
+        <ol class="roadmap-questions">
+          {typescriptRoadmap.noteQuestions.map(question => <li>{question}</li>)}
+        </ol>
+      </section>
+
+      <section class="roadmap-section">
+        <h2>已有笔记</h2>
+        <div class="module-home-grid">
+          {
+            domain.groups.map(group => (
+              <section>
+                <h3>{group.label}</h3>
+                <ul class="topic-list">
+                  {group.topics.map(topic => (
+                    <li>
+                      <a href={topic.href}>{topic.title}</a>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))
+          }
+        </div>
+      </section>
     </div>
   </section>
 </ModuleLayout>
+
+<style lang="scss">
+  .roadmap-hero {
+    display: grid;
+    align-items: start;
+    gap: 20px;
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.72fr);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 26px;
+
+    h2 {
+      margin: 0 0 10px;
+    }
+
+    p {
+      max-width: 680px;
+      margin: 0;
+      color: var(--muted);
+    }
+  }
+
+  .roadmap-order,
+  .roadmap-questions {
+    margin: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-strong);
+    padding: 14px;
+  }
+
+  .roadmap-order {
+    display: grid;
+    gap: 10px;
+    list-style: none;
+
+    li {
+      display: grid;
+      align-items: center;
+      column-gap: 18px;
+      grid-template-columns: minmax(180px, max-content) 1fr;
+      line-height: 1.35;
+    }
+
+    code {
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.86em;
+      padding: 0;
+    }
+  }
+
+  .roadmap-questions {
+    padding-left: 36px;
+  }
+
+  .roadmap-order li,
+  .roadmap-questions li {
+    color: #26344d;
+    font-family: var(--font-sans);
+    font-size: 0.94rem;
+    line-height: 1.75;
+  }
+
+  .roadmap-section {
+    margin-top: 30px;
+
+    h2 {
+      margin: 0 0 10px;
+    }
+  }
+
+  .roadmap-grid {
+    display: grid;
+    gap: 14px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .roadmap-stage {
+    position: relative;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface-strong);
+    padding: 18px;
+
+    h3 {
+      margin: 6px 0 8px;
+      font-size: 1.08rem;
+    }
+
+    p {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-family: var(--font-serif);
+      line-height: 1.7;
+    }
+  }
+
+  .roadmap-index {
+    color: var(--accent);
+    font-size: 0.76rem;
+    font-weight: 800;
+  }
+
+  .roadmap-list {
+    margin-top: 12px;
+
+    strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.88rem;
+      margin-bottom: 4px;
+    }
+
+    ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    li {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: white;
+      color: #26344d;
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      line-height: 1.2;
+      padding: 6px 9px;
+    }
+
+    code {
+      background: transparent;
+      color: var(--accent);
+      font-size: 0.86em;
+      padding: 0;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .roadmap-hero,
+    .roadmap-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

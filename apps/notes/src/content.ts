@@ -34,7 +34,7 @@ export const domainDescriptions: Record<DomainKey, string> = {
 export const domainOrder: DomainKey[] = ['javascript', 'react', 'typescript']
 
 export function getNoteHref(note: NoteEntry) {
-  return `/${note.id.replace(/\/index$/, '')}`
+  return `/${note.id.replace(/\/(index|note)$/, '')}`
 }
 
 export function buildDomains(notes: NoteEntry[]): DomainNavItem[] {

@@ -1,0 +1,32 @@
+---
+title: 字面量类型
+summary: 理解字符串、数字、布尔字面量类型如何把变量限制在具体值上。
+domain: typescript
+domainLabel: TypeScript
+group: basics
+groupLabel: TypeScript 基础
+order: 3
+---
+
+import { LiteralTypesDemo } from './demo'
+
+## 核心理解
+
+字面量类型不是说“这个值大概是字符串”，而是说“这个值只能是某一个具体字符串”。
+
+```ts
+type ButtonSize = 'small' | 'medium' | 'large'
+type OrderStatus = 'pending' | 'paid' | 'shipped' | 'cancelled'
+```
+
+它通常会和联合类型一起出现，用来表达一组选项、状态、角色或者模式。
+
+## 交互观察
+
+<LiteralTypesDemo client:load />
+
+## 建议记录
+
+- 哪些值适合收窄成固定选项
+- 字面量类型和普通 `string` 的区别
+- 什么时候需要用 `as const` 保留具体值类型
