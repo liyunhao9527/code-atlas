@@ -1,9 +1,15 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "jsx": "react-jsx",
     "lib": ["ES2023", "DOM"],
+    "paths": {
+      "@notes/*": ["apps/notes/src/*"],
+      "@notes-content/*": ["apps/notes/content/*"],
+      "@notes-public/*": ["apps/notes/public/*"]
+    },
     "types": ["react"]
   },
-  "include": ["content/**/*.mdx", "content/**/*.tsx"]
+  "include": ["apps/notes/content/**/*.mdx", "apps/notes/content/**/*.ts", "apps/notes/content/**/*.tsx"]
 }

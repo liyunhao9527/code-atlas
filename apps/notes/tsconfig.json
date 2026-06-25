@@ -1,6 +1,13 @@
 {
   "extends": "astro/tsconfigs/strict",
-  "compilerOptions": {},
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@notes/*": ["src/*"],
+      "@notes-content/*": ["content/*"],
+      "@notes-public/*": ["public/*"]
+    }
+  },
   "include": [".astro/types.d.ts", "**/*"],
   "exclude": ["dist"]
 }

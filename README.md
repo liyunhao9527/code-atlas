@@ -4,8 +4,7 @@
 
 这个仓库现在拆成了几层：
 
-- `apps/notes`：主笔记站，使用 Astro 渲染 MDX 内容
-- `content/`：真正写笔记的地方，使用 Markdown/MDX；文章专属 demo 和文章放在同一目录
+- `apps/notes`：主笔记站，使用 Astro 渲染 MDX 内容；笔记、文章专属 demo 和示例代码放在 `apps/notes/content`
 - `packages/shared`：共享类型和工具
 - 根目录：工作区脚本、Turbo 流水线、格式化和基础 TypeScript 配置
 
@@ -15,15 +14,15 @@
 .
 ├── apps
 │   └── notes
-├── content
-│   ├── javascript
-│   ├── react
-│   └── typescript
+│       └── content
+│           ├── javascript
+│           ├── react
+│           └── typescript
 ├── packages
 │   └── shared
 ```
 
-新的主线是 `apps/notes` + `content/**/*.mdx`。
+新的主线是 `apps/notes` + `apps/notes/content/**/*.mdx`。
 
 ## 内容写法
 
@@ -52,7 +51,7 @@ import { ClosureCounterDemo } from './ClosureCounterDemo'
 推荐目录：
 
 ```text
-content
+apps/notes/content
 ├── javascript
 │   ├── basics
 │   └── browser
@@ -68,7 +67,7 @@ content
 带交互 demo 的文章推荐使用文件夹：
 
 ```text
-content/react/basics/state/
+apps/notes/content/react/basics/state/
   index.mdx
   StateCounterDemo.tsx
 ```
@@ -76,7 +75,7 @@ content/react/basics/state/
 ## 架构原则
 
 - 产品命名不绑定框架：主应用叫 `apps/notes`，Astro 只是实现细节
-- 内容优先：笔记正文在 `content/**/*.mdx`，不再写进 TypeScript 对象
+- 内容优先：笔记正文在 `apps/notes/content/**/*.mdx`，不再写进 TypeScript 对象
 - 就近组织：文章专属 React demo 放在同一篇文章目录里，由 MDX 相对引用
 - 允许“笔记 + demo”共存：每篇文章既能写说明，也能挂交互组件
 

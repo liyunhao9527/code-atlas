@@ -1,9 +1,9 @@
 ---
 import { getCollection } from 'astro:content'
 
-import heroImage from '../../public/hero.png'
-import { buildDomains } from '../content'
-import BaseLayout from '../layouts/BaseLayout.astro'
+import { buildDomains } from '@notes/content'
+import BaseLayout from '@notes/layouts/BaseLayout.astro'
+import heroImage from '@notes-public/hero.png'
 
 const notes = await getCollection('notes')
 const domains = buildDomains(notes)
@@ -45,7 +45,7 @@ const groupCount = domains.reduce((count, domain) => count + domain.groups.lengt
 
     <section class="domain-grid" aria-label="Content domains">
       {
-        domains.map((domain) => (
+        domains.map(domain => (
           <a class="domain-card" href={domain.entryPath}>
             <span class="kicker">{domain.key}</span>
             <h2>{domain.label}</h2>

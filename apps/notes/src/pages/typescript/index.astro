@@ -1,9 +1,9 @@
 ---
 import { getCollection } from 'astro:content'
 
-import { typescriptRoadmap } from '../../../../../content/typescript/learning-roadmap'
-import { buildDomains, getDomainByKey } from '../../content'
-import ModuleLayout from '../../layouts/ModuleLayout.astro'
+import { buildDomains, getDomainByKey } from '@notes/content'
+import ModuleLayout from '@notes/layouts/ModuleLayout.astro'
+import { typescriptRoadmap } from '@notes-content/typescript/learning-roadmap'
 
 const notes = await getCollection('notes')
 const domains = buildDomains(notes)

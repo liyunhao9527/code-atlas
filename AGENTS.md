@@ -6,18 +6,18 @@ If you update one of these files with a rule that affects how agents should work
 
 ## Project
 
-Learn Front Every Day is a frontend learning notes monorepo. The notes app uses Astro + React + MDX + Tailwind CSS to render content from `content/`.
+Learn Front Every Day is a frontend learning notes monorepo. The notes app uses Astro + React + MDX + Tailwind CSS + Ant Design to render content from `apps/notes/content/`.
 
 ## Content Structure
 
-`content/` is the source of truth for learning content. `apps/notes` is the renderer.
+`apps/notes/content/` is the source of truth for learning content. Keep note content, article-specific demos, and example files inside the notes app so they resolve the same app dependencies.
 
-The TypeScript module homepage is driven by `content/typescript/learning-roadmap.ts`. Update that file when changing the TypeScript learning path, stage order, recommended topics, or demo ideas.
+The TypeScript module homepage is driven by `apps/notes/content/typescript/learning-roadmap.ts`. Update that file when changing the TypeScript learning path, stage order, recommended topics, or demo ideas.
 
 Use this structure for notes with interactive demos:
 
 ```text
-content/{domain}/{group}/{topic}/
+apps/notes/content/{domain}/{group}/{topic}/
   note.mdx
   demo.tsx
   examples.ts
@@ -42,7 +42,7 @@ Use each file this way:
 Example:
 
 ```text
-content/typescript/basics/literal-types/
+apps/notes/content/typescript/basics/literal-types/
   note.mdx
   demo.tsx
   examples.ts
@@ -61,7 +61,7 @@ The demo file is named `demo.tsx`, but the exported React component still uses P
 Pure notes without demos may use:
 
 ```text
-content/{domain}/{group}/file.mdx
+apps/notes/content/{domain}/{group}/file.mdx
 ```
 
 ## Frontmatter
@@ -94,7 +94,11 @@ Run `pnpm build:notes` after changing notes, demos, or content routing.
 
 ## Styling
 
-The notes app supports Tailwind CSS and Sass. Keep shared site styles in `apps/notes/src/styles/global.css`.
+The notes app supports Tailwind CSS, Sass, and Ant Design. Keep shared site styles in `apps/notes/src/styles/global.css`.
+
+For interactive React demos, prefer Ant Design components for common controls and display surfaces, such as `Button`, `Space`, `Segmented`, `Input`, `InputNumber`, `Select`, `Checkbox`, `Card`, `Descriptions`, `Statistic`, `Alert`, and `List`. Use Tailwind utility classes for small layout adjustments, and use `!` utilities only when Ant Design styles cannot otherwise be overridden.
+
+Keep global demo CSS minimal. Use it for shared article-demo wrappers and labels, such as `demo-card`, `demo-eyebrow`, and `demo-label`; avoid adding one-off global classes for buttons, inputs, logs, or output panels when an Ant Design component can express the UI.
 
 For page-specific styles that are too verbose in plain CSS, prefer Astro scoped styles with Sass:
 
@@ -107,3 +111,13 @@ For page-specific styles that are too verbose in plain CSS, prefer Astro scoped 
   }
 </style>
 ```
+
+## Path Aliases
+
+In the notes app, prefer app-namespaced path aliases over long cross-directory relative imports:
+
+- `@notes/*` -> `apps/notes/src/*`
+- `@notes-content/*` -> `apps/notes/content/*`
+- `@notes-public/*` -> `apps/notes/public/*`
+
+Keep local same-folder imports as relative paths, such as `./examples` and `./demo`.

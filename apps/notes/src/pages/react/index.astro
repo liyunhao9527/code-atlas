@@ -1,8 +1,8 @@
 ---
 import { getCollection } from 'astro:content'
 
-import { buildDomains, getDomainByKey } from '../../content'
-import ModuleLayout from '../../layouts/ModuleLayout.astro'
+import { buildDomains, getDomainByKey } from '@notes/content'
+import ModuleLayout from '@notes/layouts/ModuleLayout.astro'
 
 const notes = await getCollection('notes')
 const domains = buildDomains(notes)

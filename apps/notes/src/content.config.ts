@@ -14,7 +14,7 @@ const noteSchema = z.object({
 
 const notes = defineCollection({
   loader: glob({
-    base: '../../content',
+    base: './content',
     pattern: '{javascript,react,typescript}/**/*.mdx',
   }),
   schema: noteSchema,

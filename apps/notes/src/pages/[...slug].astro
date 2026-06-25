@@ -1,8 +1,8 @@
 ---
 import { getCollection, render } from 'astro:content'
 
-import { buildDomains, getDomainByKey, getNoteHref } from '../content'
-import ModuleLayout from '../layouts/ModuleLayout.astro'
+import { buildDomains, getDomainByKey, getNoteHref } from '@notes/content'
+import ModuleLayout from '@notes/layouts/ModuleLayout.astro'
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes')

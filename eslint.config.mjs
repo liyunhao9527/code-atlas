@@ -1,6 +1,7 @@
 import js from '@eslint/js'
 import eslintConfigPrettier from 'eslint-config-prettier/flat'
 import astro from 'eslint-plugin-astro'
+import perfectionist from 'eslint-plugin-perfectionist'
 import reactHooks from 'eslint-plugin-react-hooks'
 import globals from 'globals'
 import tseslint from 'typescript-eslint'
@@ -32,9 +33,20 @@ export default tseslint.config(
   {
     files: ['**/*.{tsx,jsx}'],
     plugins: {
+      perfectionist,
       'react-hooks': reactHooks,
     },
-    rules: reactHooks.configs.recommended.rules,
+    rules: {
+      ...reactHooks.configs.recommended.rules,
+      'perfectionist/sort-jsx-props': [
+        'warn',
+        {
+          type: 'alphabetical',
+          ignoreCase: true,
+          order: 'asc',
+        },
+      ],
+    },
   },
   eslintConfigPrettier,
 )

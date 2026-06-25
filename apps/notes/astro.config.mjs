@@ -1,3 +1,5 @@
+import { fileURLToPath, URL } from 'node:url'
+
 import mdx from '@astrojs/mdx'
 import react from '@astrojs/react'
 import tailwindcss from '@tailwindcss/vite'
@@ -10,12 +12,14 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [remarkCodeTitle],
   },
-  server: {
-    fs: {
-      allow: ['../..'],
-    },
-  },
   vite: {
     plugins: [tailwindcss()],
+    resolve: {
+      alias: {
+        '@notes': fileURLToPath(new URL('./src', import.meta.url)),
+        '@notes-content': fileURLToPath(new URL('./content', import.meta.url)),
+        '@notes-public': fileURLToPath(new URL('./public', import.meta.url)),
+      },
+    },
   },
 })

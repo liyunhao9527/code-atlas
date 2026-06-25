@@ -1,6 +1,13 @@
-@import 'tailwindcss';
-@source '../../../../content';
+@layer theme, base, antd, components, utilities;
 
+@import 'tailwindcss/theme.css' layer(theme);
+@import 'tailwindcss/preflight.css' layer(base);
+@import 'antd/dist/reset.css' layer(antd);
+@import 'tailwindcss/utilities.css' layer(utilities);
+
+@source '../../content';
+
+@layer components {
 :root {
   --font-sans: Inter, 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
   --font-serif: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Georgia, serif;
@@ -562,97 +569,6 @@ blockquote {
   text-transform: uppercase;
 }
 
-.demo-button {
-  width: fit-content;
-  min-height: 38px;
-  border: 1px solid var(--accent);
-  border-radius: 7px;
-  background: var(--accent);
-  color: white;
-  cursor: pointer;
-  font-weight: 760;
-  padding: 8px 12px;
-}
-
-.demo-button.secondary {
-  border-color: var(--border-strong);
-  background: white;
-  color: var(--text);
-}
-
-.demo-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.demo-log {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin: 0;
-  padding-left: 20px;
-}
-
-.demo-log li,
-.demo-output {
-  border-radius: 7px;
-  background: white;
-  color: #26344d;
-  font-family: var(--font-sans);
-  font-size: 0.92rem;
-  line-height: 1.5;
-  padding: 8px 10px;
-}
-
-.event-box {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  border: 1px dashed var(--border-strong);
-  border-radius: 8px;
-  padding: 14px;
-}
-
-.event-box-outer {
-  background: #eef6ff;
-}
-
-.event-box-inner {
-  background: white;
-}
-
-.counter-row {
-  display: flex;
-  align-items: end;
-  gap: 24px;
-}
-
-.counter-value {
-  display: block;
-  font-size: 2.6rem;
-  line-height: 1;
-}
-
-.demo-field {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  color: var(--muted);
-  font-size: 0.9rem;
-  font-weight: 700;
-}
-
-.demo-field input,
-.demo-input {
-  min-height: 38px;
-  border: 1px solid var(--border-strong);
-  border-radius: 7px;
-  background: white;
-  color: var(--text);
-  padding: 8px 10px;
-}
-
 @media (max-width: 860px) {
   .site-header-inner {
     gap: 12px;
@@ -680,4 +596,5 @@ blockquote {
   .note-body {
     padding: 20px;
   }
+}
 }
