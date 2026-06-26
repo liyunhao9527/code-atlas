@@ -1,14 +1,14 @@
 ---
 import { getCollection, render } from 'astro:content'
 
-import { buildDomains, getDomainByKey, getNoteHref } from '@notes/content'
+import { buildDomains, getDomainByKey, getNoteHref, getNotePath } from '@notes/content'
 import ModuleLayout from '@notes/layouts/ModuleLayout.astro'
 
 export async function getStaticPaths() {
   const notes = await getCollection('notes')
 
   return notes.map((note) => ({
-    params: { slug: getNoteHref(note).slice(1) },
+    params: { slug: getNotePath(note).slice(1) },
     props: { note },
   }))
 }

@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 
-import { buildDomains } from '@notes/content'
+import { buildDomains, withBase } from '@notes/content'
 import BaseLayout from '@notes/layouts/BaseLayout.astro'
 import heroImage from '@notes-public/hero.png'
 
@@ -30,7 +30,7 @@ const groupCount = domains.reduce((count, domain) => count + domain.groups.lengt
               </a>
             ) : null
           }
-          <a class="button-link" href="/javascript/basics/functions">查看 MDX 样例</a>
+          <a class="button-link" href={withBase('/javascript/basics/functions')}>查看 MDX 样例</a>
         </div>
       </div>
       <aside class="hero-visual" aria-label="Content architecture">

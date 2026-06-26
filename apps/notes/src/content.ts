@@ -33,8 +33,20 @@ export const domainDescriptions: Record<DomainKey, string> = {
 
 export const domainOrder: DomainKey[] = ['javascript', 'react', 'typescript']
 
-export function getNoteHref(note: NoteEntry) {
+export function withBase(path: string) {
+  const baseUrl = import.meta.env.BASE_URL
+  const normalizedBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`
+  const normalizedPath = path.startsWith('/') ? path.slice(1) : path
+
+  return normalizedPath ? `${normalizedBase}${normalizedPath}` : normalizedBase
+}
+
+export function getNotePath(note: NoteEntry) {
   return `/${note.id.replace(/\/(index|note)$/, '')}`
+}
+
+export function getNoteHref(note: NoteEntry) {
+  return withBase(getNotePath(note))
 }
 
 export function buildDomains(notes: NoteEntry[]): DomainNavItem[] {
@@ -78,7 +90,7 @@ export function buildDomains(notes: NoteEntry[]): DomainNavItem[] {
 
       return {
         description: domainDescriptions[domainKey],
-        entryPath: `/${domainKey}`,
+        entryPath: withBase(`/${domainKey}`),
         groups,
         key: domainKey,
         label: domainNotes[0].data.domainLabel,

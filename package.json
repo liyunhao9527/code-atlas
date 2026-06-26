@@ -13,6 +13,7 @@
     "dev:notes": "turbo dev --filter=@code-atlas/notes",
     "build": "turbo build",
     "build:notes": "turbo build --filter=@code-atlas/notes",
+    "build:notes:github-pages": "cross-env DEPLOY_TARGET=github-pages turbo build --filter=@code-atlas/notes",
     "lint": "eslint . && turbo lint",
     "lint:fix": "eslint . --fix",
     "typecheck": "turbo typecheck",

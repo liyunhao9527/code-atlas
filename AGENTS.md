@@ -86,11 +86,13 @@ order: 数字，决定排序
 pnpm dev
 pnpm dev:notes
 pnpm build:notes
+pnpm build:notes:github-pages
 pnpm lint
 pnpm typecheck
 ```
 
 Run `pnpm build:notes` after changing notes, demos, or content routing.
+Run `pnpm build:notes:github-pages` to build the notes app with the `/code-atlas` base path used by GitHub Pages.
 
 ## Styling
 

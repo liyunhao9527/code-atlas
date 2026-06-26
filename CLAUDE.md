@@ -148,6 +148,7 @@ pnpm dev:all          # 全量开发模式
 # 构建与检查
 pnpm build            # 全量构建
 pnpm build:notes      # 仅构建 notes
+pnpm build:notes:github-pages # 以 GitHub Pages 的 /code-atlas base path 构建 notes
 pnpm lint             # ESLint
 pnpm typecheck        # TypeScript 检查
 ```

@@ -15,6 +15,10 @@ interface Props {
 }
 
 const { currentPath = Astro.url.pathname, domains, title = 'Code Atlas' } = Astro.props
+const baseUrl = import.meta.env.BASE_URL.endsWith('/')
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`
+const faviconUrl = `${baseUrl}favicon.svg`
 const iconProps = {
   fill: 'currentColor',
   size: 16,
@@ -37,15 +41,15 @@ const copiedIconSvg = renderToStaticMarkup(React.createElement(CheckOneIcon, ico
     <meta charset="UTF-8" />
     <meta name="description" content="软件学习笔记、交互示例与实战项目内容站" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={faviconUrl} />
     <title>{title}</title>
   </head>
   <body>
     <div class="site-shell">
       <header class="site-header">
         <div class="site-header-inner">
-          <a class="brand" href="/">
-            <img class="brand-mark" src="/favicon.svg" alt="" aria-hidden="true" />
+          <a class="brand" href={baseUrl}>
+            <img class="brand-mark" src={faviconUrl} alt="" aria-hidden="true" />
             <span>
               <span class="brand-title">Code Atlas</span>
               <span class="brand-subtitle">Software Atlas</span>

@@ -7,11 +7,15 @@ import { defineConfig } from 'astro/config'
 
 import { remarkCodeTitle } from './src/plugins/remark-code-title.mjs'
 
+const isGitHubPages = process.env.DEPLOY_TARGET === 'github-pages'
+
 export default defineConfig({
+  base: isGitHubPages ? '/code-atlas' : undefined,
   integrations: [mdx(), react()],
   markdown: {
     remarkPlugins: [remarkCodeTitle],
   },
+  site: 'https://liyunhao9527.github.io',
   vite: {
     plugins: [tailwindcss()],
     resolve: {
