@@ -1,0 +1,472 @@
+---
+title: 函数类型
+summary: 理解 TypeScript 如何描述函数的参数、返回值、回调和异步结果。
+domain: typescript
+domainLabel: TypeScript
+group: basics
+groupLabel: TypeScript 基础
+order: 4
+---
+
+import { FunctionTypesDemo } from './demo'
+
+## 核心理解
+
+函数是 JavaScript 里最常见的抽象：把一段逻辑收起来，给它输入，拿到输出。
+
+TypeScript 给函数加类型时，重点也是这两件事：
+
+```ts
+function add(a: number, b: number): number {
+  return a + b
+}
+```
+
+这段代码可以读成一句话：`add` 接收两个 `number`，返回一个 `number`。
+
+函数类型的价值，是让调用方知道“这个函数应该怎么用”。如果传错参数，或者返回值变了，TypeScript 会提前提醒。
+
+```ts
+add(1, 2)
+add('1', '2') // 错误：参数必须是 number
+```
+
+## 参数类型
+
+参数类型写在参数名后面。
+
+```ts
+function formatUserName(firstName: string, lastName: string): string {
+  return `${firstName} ${lastName}`
+}
+```
+
+这里的 `firstName: string` 和 `lastName: string` 限制了调用方式：
+
+```ts
+formatUserName('Ada', 'Lovelace')
+formatUserName('Ada', 1) // 错误：第二个参数不是 string
+```
+
+参数类型通常应该显式写出来。因为 TypeScript 很难只靠函数体猜出调用方未来会传什么。
+
+## 返回值类型
+
+返回值类型写在参数列表后面。
+
+```ts
+function isAdult(age: number): boolean {
+  return age >= 18
+}
+```
+
+很多时候，TypeScript 可以根据 `return` 推断返回值类型：
+
+```ts
+function getTitle(name: string) {
+  return `Hello, ${name}`
+}
+```
+
+`getTitle` 的返回值会被推断为 `string`。
+
+日常代码里，可以让 TypeScript 推断简单函数的返回值；但公共函数、工具函数、接口转换函数，建议显式写返回值类型。这样未来修改函数体时，不容易悄悄改坏调用方依赖的结果。
+
+```ts
+type UserView = {
+  active: boolean
+  name: string
+}
+
+function createUserView(name: string): UserView {
+  return {
+    active: true,
+    name,
+  }
+}
+```
+
+## 函数声明和箭头函数
+
+函数声明适合写独立的业务动作。
+
+```ts
+function calculateTotal(price: number, count: number): number {
+  return price * count
+}
+```
+
+箭头函数适合赋值给变量、传给其他函数，或者写在 React 组件和数组方法里。
+
+```ts
+const calculateTotal = (price: number, count: number): number => {
+  return price * count
+}
+```
+
+两种写法都能标注参数和返回值。选择哪一种，更多取决于代码位置和团队风格。
+
+## 可选参数
+
+可选参数用 `?` 标记，表示调用时可以不传。
+
+```ts
+function greet(name?: string): string {
+  if (name) {
+    return `Hello, ${name}`
+  }
+
+  return 'Hello'
+}
+```
+
+可选参数的值可能是 `undefined`，所以使用前通常要先判断。
+
+```ts
+greet('Ada')
+greet()
+```
+
+注意，可选参数一般放在必填参数后面，调用时更清楚。
+
+## 默认参数
+
+如果参数不传时应该有一个默认值，可以直接写默认参数。
+
+```ts
+function greet(name = 'TypeScript'): string {
+  return `Hello, ${name}`
+}
+```
+
+这里的 `name` 会被推断为 `string`。调用方可以不传，函数内部仍然能拿到一个字符串。
+
+```ts
+greet()
+greet('Ada')
+```
+
+如果只是想处理“不传就用默认值”的情况，默认参数通常比可选参数更直接。
+
+## 剩余参数
+
+剩余参数用来接收数量不固定的一组值。
+
+```ts
+function sum(...numbers: number[]): number {
+  return numbers.reduce((total, item) => total + item, 0)
+}
+```
+
+`...numbers: number[]` 表示调用时可以传多个数字，函数内部会把它们当成数组。
+
+```ts
+sum(1, 2)
+sum(1, 2, 3, 4)
+```
+
+剩余参数常见于求和、日志、批量处理、命令式工具函数。
+
+## 解构参数
+
+当一个函数的参数开始变多时，可以改成对象参数，再用解构取值。
+
+```ts
+type CreateOrderOptions = {
+  count: number
+  coupon?: string
+  productId: string
+  userId: string
+}
+
+function createOrder({ count, coupon, productId, userId }: CreateOrderOptions) {
+  return {
+    count,
+    coupon,
+    productId,
+    userId,
+  }
+}
+```
+
+调用时会比一长串位置参数更清楚：
+
+```ts
+createOrder({
+  count: 2,
+  productId: 'book-001',
+  userId: 'user-001',
+})
+```
+
+对象参数适合配置项、表单提交、接口请求参数这类字段较多的场景。
+
+## 函数类型别名
+
+如果某个函数签名会被复用，可以用 `type` 给它起名。
+
+```ts
+type CalculateTotal = (price: number, count: number) => number
+
+const calculateTotal: CalculateTotal = (price, count) => {
+  return price * count
+}
+```
+
+`CalculateTotal` 表示：接收两个 `number`，返回一个 `number`。
+
+这里 `price` 和 `count` 不需要再单独写类型，因为 TypeScript 会从 `CalculateTotal` 里推断出来。
+
+注意函数类型里的返回值用 `=> number`，不是 `: number`。`:` 用在变量、参数和函数声明的返回值位置；`=>` 用在函数类型表达式里。
+
+函数类型别名也适合描述格式化、筛选、转换这类小函数。
+
+```ts
+type PriceFormatter = (value: number) => string
+
+const formatPrice: PriceFormatter = (value) => {
+  return `$${value}`
+}
+```
+
+`PriceFormatter` 表示：接收一个 `number`，返回一个 `string`。
+
+它还常用来描述回调函数。
+
+```ts
+type User = {
+  id: number
+  name: string
+}
+
+type PickName = (user: User) => string
+
+function mapUserNames(users: User[], pickName: PickName): string[] {
+  return users.map(pickName)
+}
+```
+
+现在 `pickName` 的输入和输出都很明确：每次拿到一个 `User`，必须返回一个 `string`。
+
+## interface 描述函数签名
+
+函数签名也可以用 `interface` 描述。
+
+```ts
+interface PriceCalculator {
+  (price: number, count: number): number
+}
+
+const calculateTotal: PriceCalculator = (price, count) => {
+  return price * count
+}
+```
+
+如果只是给普通函数签名起名，`type` 更常见。`interface` 更适合描述“可以调用，同时还有属性”的函数对象。
+
+```ts
+interface RequestRunner {
+  (url: string): Promise<string>
+  timeout: number
+}
+```
+
+这表示 `RequestRunner` 既能像函数一样调用，也有一个 `timeout` 属性。
+
+## 高阶函数
+
+高阶函数指的是接收函数，或者返回函数的函数。
+
+```ts
+function withLog(action: () => void): () => void {
+  return () => {
+    console.log('start')
+    action()
+    console.log('end')
+  }
+}
+```
+
+`action: () => void` 表示传进来的函数不需要参数，也不关心返回值。
+
+高阶函数看起来复杂，是因为它同时出现了两层函数签名。读的时候可以先拆开：
+
+- `withLog` 接收什么，返回什么
+- `action` 接收什么，返回什么
+
+拆成这两层后，类型就没有那么绕。
+
+## 异步函数
+
+`async` 函数的返回值一定是 `Promise`。
+
+```ts
+async function fetchUserName(id: number): Promise<string> {
+  const response = await fetch(`/api/users/${id}`)
+  const user = await response.json()
+
+  return user.name
+}
+```
+
+函数体里返回的是 `user.name`，外部拿到的是 `Promise<string>`。
+
+```ts
+const namePromise = fetchUserName(1)
+// namePromise 的类型是 Promise<string>
+```
+
+如果要拿到真正的字符串，需要 `await`。
+
+```ts
+const name = await fetchUserName(1)
+// name 的类型是 string
+```
+
+写异步函数时，最重要的是把 `Promise<T>` 里的 `T` 写清楚。`Promise<string>` 表示异步完成后得到字符串，`Promise<User>` 表示异步完成后得到用户对象。
+
+## 交互观察
+
+<FunctionTypesDemo client:load />
+
+## 常见误区
+
+### 不要用 `Function`
+
+```ts
+let handler: Function
+```
+
+`Function` 太宽了。它没有说明参数是什么，也没有说明返回值是什么。
+
+更好的写法是写出具体签名：
+
+```ts
+let handler: (eventName: string) => void
+```
+
+### 不要把可选参数当成一定有值
+
+```ts
+function printLength(value?: string) {
+  return value.length
+}
+```
+
+这段代码有问题，因为 `value` 可能是 `undefined`。
+
+```ts
+function printLength(value?: string) {
+  return value?.length ?? 0
+}
+```
+
+使用可选参数时，要么先判断，要么给默认值。
+
+### 参数太多时，优先考虑对象参数
+
+```ts
+function createOrder(userId: string, productId: string, count: number, coupon?: string) {}
+```
+
+这类函数调用时容易看不懂每个值的含义。
+
+```ts
+function createOrder(options: {
+  count: number
+  coupon?: string
+  productId: string
+  userId: string
+}) {}
+```
+
+改成对象参数后，调用方能直接看到字段名。
+
+## 练习
+
+### 练习一：写一个格式化价格的函数
+
+要求：接收一个数字，返回带货币符号的字符串。
+
+```ts
+function formatPrice(value: number): string {
+  return `$${value.toFixed(2)}`
+}
+
+formatPrice(19)
+// '$19.00'
+```
+
+这个练习用来确认你能写清楚参数类型和返回值类型。
+
+### 练习二：用对象参数创建订单
+
+要求：订单信息包含用户、商品、数量和可选优惠码。
+
+```ts
+type CreateOrderOptions = {
+  count: number
+  coupon?: string
+  productId: string
+  userId: string
+}
+
+function createOrder({ count, coupon, productId, userId }: CreateOrderOptions) {
+  return {
+    count,
+    coupon,
+    productId,
+    status: 'pending',
+    userId,
+  }
+}
+
+createOrder({
+  count: 2,
+  productId: 'book-001',
+  userId: 'user-001',
+})
+```
+
+这个练习用来观察：参数变多时，对象参数比位置参数更容易读。
+
+### 练习三：定义一个校验函数类型
+
+要求：校验函数接收字符串，返回布尔值。
+
+```ts
+type Validator = (value: string) => boolean
+
+const isEmail: Validator = (value) => {
+  return value.includes('@')
+}
+
+const isLongEnough: Validator = (value) => {
+  return value.length >= 8
+}
+```
+
+这里 `value` 不需要重复写成 `string`，因为 TypeScript 会从 `Validator` 推断出来。
+
+### 练习四：写一个异步函数
+
+要求：函数返回用户资料，并明确标注 `Promise<T>`。
+
+```ts
+type UserProfile = {
+  id: number
+  name: string
+}
+
+async function fetchUserProfile(id: number): Promise<UserProfile> {
+  const response = await fetch(`/api/users/${id}`)
+  const data = await response.json()
+
+  return {
+    id: data.id,
+    name: data.name,
+  }
+}
+```
+
+这个练习的关键点是：`async` 函数外部拿到的是 `Promise<UserProfile>`，`await` 之后才是 `UserProfile`。

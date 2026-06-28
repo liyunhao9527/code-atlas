@@ -78,6 +78,16 @@ apps/notes/content/typescript/basics/literal-types/
 - `examples.ts`：写纯 TypeScript 练习代码、类型、工具函数、示例数据和可复用示例
 - `demo.tsx`：把示例变成交互 React demo；需要时从 `examples.ts` 引入类型、数据和工具函数
 
+## 面向读者的写作
+
+`apps/notes/content/` 里的技术文章是给读者看的，不是给 agent 或维护者看的。写文章时按一篇真实技术帖来处理：
+
+- 从读者视角解释概念、问题、代码、取舍和练习步骤
+- 除非文章本身就在讲站点实现，否则不要把 MDX、Astro、路由、demo 文件名等站点实现细节写进正文
+- 避免 AI 味的空话，比如泛泛的宣传式总结、宏大结论、没有技术信息量的“帮助你理解”句子，以及 "learning map"、"topic inventory" 这类写作脚手架标签
+- 优先写具体例子、可观察行为和直接解释，少写抽象概括
+- 读者任务用“练习”表达，并写成读者动作，例如“练习时可以观察...”，不要写成“写 demo 时记录...”
+
 ### MDX Frontmatter 规范
 
 每篇笔记必须包含：

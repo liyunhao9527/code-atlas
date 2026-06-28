@@ -3,6 +3,7 @@ import '@notes/styles/global.css'
 
 import CheckOneModule from '@icon-park/react/lib/icons/CheckOne'
 import CopyModule from '@icon-park/react/lib/icons/Copy'
+import GithubModule from '@icon-park/react/lib/icons/Github'
 import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 
@@ -31,8 +32,10 @@ const CopyIcon = ('default' in CopyModule ? CopyModule.default : CopyModule) as 
 const CheckOneIcon = (
   'default' in CheckOneModule ? CheckOneModule.default : CheckOneModule
 ) as React.ElementType
+const GithubIcon = ('default' in GithubModule ? GithubModule.default : GithubModule) as React.ElementType
 const copyIconSvg = renderToStaticMarkup(React.createElement(CopyIcon, iconProps))
 const copiedIconSvg = renderToStaticMarkup(React.createElement(CheckOneIcon, iconProps))
+const githubIconSvg = renderToStaticMarkup(React.createElement(GithubIcon, iconProps))
 ---
 
 <!doctype html>
@@ -52,7 +55,6 @@ const copiedIconSvg = renderToStaticMarkup(React.createElement(CheckOneIcon, ico
             <img class="brand-mark" src={faviconUrl} alt="" aria-hidden="true" />
             <span>
               <span class="brand-title">Code Atlas</span>
-              <span class="brand-subtitle">Software Atlas</span>
             </span>
           </a>
           <nav class="top-nav" aria-label="Primary">
@@ -67,6 +69,18 @@ const copiedIconSvg = renderToStaticMarkup(React.createElement(CheckOneIcon, ico
               ))
             }
           </nav>
+          <div class="header-actions">
+            <a
+              class="header-action-link"
+              href="https://github.com/liyunhao9527/code-atlas"
+              aria-label="打开 GitHub 仓库"
+              rel="noreferrer"
+              target="_blank"
+              title="GitHub"
+              set:html={githubIconSvg}
+            >
+            </a>
+          </div>
         </div>
       </header>
       <slot />

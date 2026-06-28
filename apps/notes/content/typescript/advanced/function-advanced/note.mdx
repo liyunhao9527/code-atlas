@@ -1,0 +1,356 @@
+---
+title: 函数类型进阶
+summary: 用泛型、重载、类型谓词和工具类型表达更精确的函数关系。
+domain: typescript
+domainLabel: TypeScript
+group: advanced
+groupLabel: 类型系统
+order: 22
+---
+
+import { FunctionAdvancedDemo } from './demo'
+
+## 核心理解
+
+基础函数类型解决的是：参数是什么，返回值是什么。
+
+进阶函数类型继续往前走一步：参数和返回值之间有没有关系？不同调用方式能不能得到不同结果？一个判断函数能不能帮助后续代码收窄类型？
+
+```ts
+function first<T>(items: T[]): T | undefined {
+  return items[0]
+}
+```
+
+这个函数不是简单地说“接收数组，返回某个值”，而是在表达一条关系：传入 `string[]`，返回 `string | undefined`；传入 `number[]`，返回 `number | undefined`。
+
+## 泛型函数
+
+泛型让函数在复用逻辑时保留类型信息。
+
+```ts
+function wrap<T>(value: T): { value: T } {
+  return { value }
+}
+```
+
+调用时，TypeScript 会根据传入值推断 `T`。
+
+```ts
+const text = wrap('hello')
+// text.value 是 string
+
+const count = wrap(1)
+// count.value 是 number
+```
+
+如果不用泛型，可能只能写成 `unknown` 或很宽的联合类型，调用方拿到结果后还要重新判断。
+
+## 泛型约束
+
+有时函数既要保持泛型，又需要确定参数至少具备某些字段。
+
+```ts
+function getLabel<T extends { label: string }>(item: T): string {
+  return item.label
+}
+```
+
+`T extends { label: string }` 的意思是：`T` 可以比 `{ label: string }` 更具体，但必须有 `label` 字段。
+
+```ts
+getLabel({ id: 1, label: 'TypeScript' })
+getLabel({ name: 'TypeScript' }) // 错误：缺少 label
+```
+
+约束的价值是平衡两件事：函数内部能安全使用某些字段，调用方又不会丢失额外的类型信息。
+
+## 多个泛型参数
+
+当输入和输出之间有多组关系时，可以使用多个泛型参数。
+
+```ts
+function mapValue<TInput, TOutput>(
+  value: TInput,
+  mapper: (value: TInput) => TOutput,
+): TOutput {
+  return mapper(value)
+}
+```
+
+这里有两个类型变量：
+
+- `TInput`：原始值的类型
+- `TOutput`：转换后的类型
+
+```ts
+const length = mapValue('hello', (value) => value.length)
+// length 是 number
+```
+
+多个泛型参数不是越多越好。只有当不同位置之间真的存在类型关系时，才值得引入。
+
+## 函数重载
+
+函数重载适合描述“同一个函数，不同传参方式，对应不同返回结果”的场景。
+
+```ts
+function parseInput(input: number): { kind: 'number'; value: number }
+function parseInput(input: string):
+  | { kind: 'empty'; message: string }
+  | { kind: 'number'; value: number }
+  | { kind: 'text'; value: string }
+function parseInput(input: string | number) {
+  if (typeof input === 'number') {
+    return { kind: 'number', value: input }
+  }
+
+  if (input === '') {
+    return { kind: 'empty', message: '没有可解析的输入' }
+  }
+
+  const numericValue = Number(input)
+
+  if (!Number.isNaN(numericValue)) {
+    return { kind: 'number', value: numericValue }
+  }
+
+  return { kind: 'text', value: input }
+}
+```
+
+前两行是重载签名，最后一个是实现签名。调用方看到的是重载签名，函数内部使用实现签名。
+
+重载不要滥用。如果只是参数可以是几种类型，返回值也差不多，联合类型通常更简单。只有当“传什么”和“返回什么”之间有明确对应关系时，重载才更有价值。
+
+## 类型谓词
+
+普通布尔函数只能告诉你判断结果是 `true` 或 `false`。
+
+```ts
+function isString(value: unknown): boolean {
+  return typeof value === 'string'
+}
+```
+
+类型谓词可以告诉 TypeScript：如果这个函数返回 `true`，那么参数可以被看成某个更具体的类型。
+
+```ts
+function isString(value: unknown): value is string {
+  return typeof value === 'string'
+}
+```
+
+`value is string` 就是类型谓词。
+
+```ts
+function printUpperCase(value: unknown) {
+  if (isString(value)) {
+    return value.toUpperCase()
+  }
+
+  return ''
+}
+```
+
+进入 `if` 分支后，`value` 会被收窄成 `string`。
+
+## never 穷尽检查
+
+当你用联合类型描述几种固定状态时，可以用 `never` 检查分支是否写完整。
+
+```ts
+type Result =
+  | { kind: 'empty'; message: string }
+  | { kind: 'number'; value: number }
+  | { kind: 'text'; value: string }
+
+function assertNever(value: never): never {
+  throw new Error(`Unexpected value: ${String(value)}`)
+}
+
+function formatResult(result: Result): string {
+  switch (result.kind) {
+    case 'empty':
+      return result.message
+    case 'number':
+      return result.value.toFixed(2)
+    case 'text':
+      return result.value.toUpperCase()
+    default:
+      return assertNever(result)
+  }
+}
+```
+
+如果以后给 `Result` 新增一种 `kind`，但忘了更新 `switch`，`assertNever(result)` 会暴露问题。
+
+## 工具类型与函数
+
+TypeScript 内置了一些工具类型，可以从函数里提取类型。
+
+```ts
+function createUser(name: string, age: number) {
+  return {
+    age,
+    name,
+  }
+}
+
+type CreateUserParams = Parameters<typeof createUser>
+type CreateUserResult = ReturnType<typeof createUser>
+```
+
+`Parameters<typeof createUser>` 得到参数元组类型：
+
+```ts
+type CreateUserParams = [name: string, age: number]
+```
+
+`ReturnType<typeof createUser>` 得到返回值类型：
+
+```ts
+type CreateUserResult = {
+  age: number
+  name: string
+}
+```
+
+异步函数可以再配合 `Awaited`。
+
+```ts
+async function fetchUser() {
+  return {
+    id: 1,
+    name: 'Ada',
+  }
+}
+
+type User = Awaited<ReturnType<typeof fetchUser>>
+```
+
+`User` 表示 `Promise` resolve 之后的真实结果。
+
+## this 参数
+
+普通函数可以显式声明 `this` 的类型。这个 `this` 参数只参与类型检查，不会出现在真实调用参数里。
+
+```ts
+type Counter = {
+  count: number
+}
+
+function increment(this: Counter, step: number) {
+  this.count += step
+}
+```
+
+这类写法常见于需要绑定调用上下文的函数。箭头函数没有自己的 `this`，所以不能用这种方式声明 `this` 参数。
+
+如果你在业务代码里很少依赖动态 `this`，可以先记住结论：需要写 `this` 类型时，通常说明这个函数和调用方式强相关，要格外小心。
+
+## 函数组合的方向
+
+函数组合、柯里化、pipeline 这类模式，本质上是在保留一串函数的输入输出关系。
+
+```ts
+const trim = (value: string) => value.trim()
+const toUpperCase = (value: string) => value.toUpperCase()
+
+function pipeString(value: string, ...fns: Array<(value: string) => string>) {
+  return fns.reduce((current, fn) => fn(current), value)
+}
+
+pipeString(' hello ', trim, toUpperCase)
+```
+
+这个例子只处理 `string -> string`，所以类型很简单。真正复杂的是每一步输入输出都不同的组合函数，那通常需要更高级的泛型和元组类型。它适合单独成文，不建议在第一次学习函数类型时硬啃。
+
+## 交互观察
+
+<FunctionAdvancedDemo client:load />
+
+## 常见误区
+
+### 泛型不是用来替代具体类型
+
+```ts
+function log<T>(value: T): void {
+  console.log(value)
+}
+```
+
+这个函数虽然能写，但泛型没有带来额外价值。因为它没有把输入和输出、输入和回调、多个参数之间的类型关系表达出来。
+
+```ts
+function log(value: unknown): void {
+  console.log(value)
+}
+```
+
+如果只是接收任何值并打印，`unknown` 更直接。
+
+### 重载不是越多越好
+
+如果重载签名很多，调用方和维护者都会难读。能用对象参数或联合类型表达清楚的场景，先用更简单的写法。
+
+### 工具类型不要盖过可读性
+
+```ts
+type User = Awaited<ReturnType<typeof fetchUser>>
+```
+
+这很方便，但如果 `fetchUser` 离当前代码很远，读者可能不知道 `User` 到底是什么。公共类型可以直接命名并导出，不必所有类型都从函数里推导。
+
+## 练习
+
+### 练习一：写一个保留类型的 `first`
+
+```ts
+function first<T>(items: T[]): T | undefined {
+  return items[0]
+}
+
+const firstName = first(['Ada', 'Grace'])
+const firstScore = first([90, 88])
+```
+
+确认 `firstName` 是 `string | undefined`，`firstScore` 是 `number | undefined`。
+
+### 练习二：写一个类型谓词
+
+```ts
+type NumberResult = {
+  kind: 'number'
+  value: number
+}
+
+type TextResult = {
+  kind: 'text'
+  value: string
+}
+
+type Result = NumberResult | TextResult
+
+function isNumberResult(result: Result): result is NumberResult {
+  return result.kind === 'number'
+}
+```
+
+在 `if (isNumberResult(result))` 分支里，试着调用 `result.value.toFixed(2)`。
+
+### 练习三：从函数提取类型
+
+```ts
+async function fetchProfile(id: number) {
+  return {
+    id,
+    name: 'Ada',
+  }
+}
+
+type FetchProfileParams = Parameters<typeof fetchProfile>
+type Profile = Awaited<ReturnType<typeof fetchProfile>>
+```
+
+观察 `FetchProfileParams` 和 `Profile` 分别代表什么。

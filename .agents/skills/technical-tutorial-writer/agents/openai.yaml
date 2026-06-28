@@ -1,0 +1,4 @@
+interface:
+  display_name: "Technical Tutorial Writer"
+  short_description: "Plan and write layered technical tutorials."
+  default_prompt: "Use this skill to plan and write a Code Atlas technical tutorial with a complete basic article, optional advanced article, demos, examples, and exercises."

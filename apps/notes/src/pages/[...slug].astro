@@ -17,7 +17,8 @@ const { note } = Astro.props
 const notes = await getCollection('notes')
 const domains = buildDomains(notes)
 const domain = getDomainByKey(domains, note.data.domain)
-const { Content } = await render(note)
+const { Content, headings } = await render(note)
+const tableOfContents = headings.filter((heading) => heading.depth === 2 || heading.depth === 3)
 
 if (!domain) {
   throw new Error(`Missing domain for ${note.id}`)
@@ -30,14 +31,31 @@ if (!domain) {
   domains={domains}
   title={`${note.data.title} | Code Atlas`}
 >
-  <article class="content-card">
-    <header class="note-header">
-      <span class="kicker">{note.data.domainLabel} / {note.data.groupLabel}</span>
-      <h1>{note.data.title}</h1>
-      <p class="note-summary">{note.data.summary}</p>
-    </header>
-    <div class="note-body">
-      <Content />
-    </div>
-  </article>
+  <div class="note-layout">
+    <article class="content-card">
+      <header class="note-header">
+        <span class="kicker">{note.data.domainLabel} / {note.data.groupLabel}</span>
+        <h1>{note.data.title}</h1>
+        <p class="note-summary">{note.data.summary}</p>
+      </header>
+      <div class="note-body">
+        <Content />
+      </div>
+    </article>
+
+    {
+      tableOfContents.length > 0 && (
+        <aside class="toc-panel" aria-label="文章目录">
+          <p class="toc-title">目录</p>
+          <nav>
+            {tableOfContents.map((heading) => (
+              <a class={`toc-link toc-depth-${heading.depth}`} href={`#${heading.slug}`}>
+                {heading.text}
+              </a>
+            ))}
+          </nav>
+        </aside>
+      )
+    }
+  </div>
 </ModuleLayout>

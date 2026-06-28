@@ -20,6 +20,7 @@ const topics = {
   'discriminated-unions': { id: 'discriminated-unions', label: '可辨识联合' },
   'event-types': { id: 'event-types', label: '事件类型' },
   'function-types': { id: 'function-types', label: '函数类型' },
+  'function-advanced': { id: 'function-advanced', label: '函数类型进阶' },
   generics: { id: 'generics', label: '泛型' },
   'generic-components': { id: 'generic-components', label: '泛型组件' },
   'indexed-access': { id: 'indexed-access', label: '索引访问类型' },
@@ -44,8 +45,7 @@ const topics = {
 } satisfies Record<string, RoadmapTopic>
 
 export const typescriptRoadmap = {
-  intro:
-    '先理解一个类型概念，再写一个能跑的 demo，最后补一个 examples.ts 保存纯 TypeScript 示例。',
+  intro: '先理解一个类型概念，再通过示例和小练习确认它解决的问题。',
   noteQuestions: [
     '这个类型概念解决什么问题？',
     '它和普通 JavaScript 写法有什么区别？',
@@ -101,6 +101,7 @@ export const typescriptRoadmap = {
       goal: '能用 TypeScript 描述更接近真实业务的数据结构。',
       title: '类型组合',
       topics: [
+        topics['function-advanced'],
         topics['interfaces-vs-types'],
         topics['intersection-types'],
         topics['mapped-types'],

@@ -1,13 +1,11 @@
 ---
 import { getCollection } from 'astro:content'
 
-import { buildDomains, withBase } from '@notes/content'
+import { buildDomains } from '@notes/content'
 import BaseLayout from '@notes/layouts/BaseLayout.astro'
-import heroImage from '@notes-public/hero.png'
 
 const notes = await getCollection('notes')
 const domains = buildDomains(notes)
-const firstDomain = domains[0]
 const noteCount = notes.length
 const groupCount = domains.reduce((count, domain) => count + domain.groups.length, 0)
 ---
@@ -16,38 +14,15 @@ const groupCount = domains.reduce((count, domain) => count + domain.groups.lengt
   <main class="home-main">
     <section class="hero">
       <div>
-        <span class="kicker">Software Knowledge Atlas</span>
-        <h1>用笔记、示例和项目构建软件知识图谱</h1>
-        <p>
-          笔记用 MDX 保存，交互实验用 React 组件承载。Astro 只负责把内容、路由和页面组织起来，
-          让写作体验先稳住。
-        </p>
-        <div class="hero-actions">
-          {
-            firstDomain ? (
-              <a class="button-link primary" href={firstDomain.entryPath}>
-                进入 {firstDomain.label}
-              </a>
-            ) : null
-          }
-          <a class="button-link" href={withBase('/javascript/basics/functions')}>查看 MDX 样例</a>
-        </div>
+        <h1>用结构化笔记整理软件开发知识</h1>
+        <p>从概念理解到示例练习，逐步建立可复用的知识体系。</p>
       </div>
-      <aside class="hero-visual" aria-label="Content architecture">
-        <img
-          src={heroImage.src}
-          width={heroImage.width}
-          height={heroImage.height}
-          alt="Layered content architecture"
-        />
-      </aside>
     </section>
 
     <section class="domain-grid" aria-label="Content domains">
       {
         domains.map(domain => (
           <a class="domain-card" href={domain.entryPath}>
-            <span class="kicker">{domain.key}</span>
             <h2>{domain.label}</h2>
             <p>{domain.description}</p>
             <span class="domain-meta">{domain.notes.length} 篇笔记</span>
@@ -55,10 +30,8 @@ const groupCount = domains.reduce((count, domain) => count + domain.groups.lengt
         ))
       }
       <div class="domain-card">
-        <span class="kicker">System</span>
         <h2>{noteCount} 篇笔记 / {groupCount} 个分组</h2>
-        <p>内容从 TypeScript 对象迁移到 MDX，后面新增文章时只需要新建 `.mdx` 文件。</p>
-        <span class="domain-meta">MDX + React islands</span>
+        <p>内容会按主题持续补充，适合用来复习概念、查找例子和安排练习顺序。</p>
       </div>
     </section>
   </main>

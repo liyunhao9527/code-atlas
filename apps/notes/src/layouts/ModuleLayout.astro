@@ -17,7 +17,6 @@ const { currentPath = Astro.url.pathname, domain, domains, title } = Astro.props
     <aside class="sidebar">
       <nav class="side-home">
         <a class={currentPath === domain.entryPath ? 'is-active' : ''} href={domain.entryPath}>
-          <span>Module Home</span>
           <strong>{domain.label}</strong>
         </a>
       </nav>

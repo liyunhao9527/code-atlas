@@ -26,9 +26,9 @@ export type DomainNavItem = {
 }
 
 export const domainDescriptions: Record<DomainKey, string> = {
-  javascript: '记录语言基础、浏览器环境、DOM 行为和可以直接验证的原生能力。',
-  react: '沉淀组件、状态、事件、Hooks 和工程结构里的真实决策。',
-  typescript: '整理类型系统、约束方式、类型推导和项目中的边界设计。',
+  javascript: '梳理语言基础、浏览器环境和 DOM 交互，帮助你把运行机制和实际用法连起来。',
+  react: '围绕组件、状态、事件和 Hooks 建立理解，练习把界面拆成清晰、可维护的部分。',
+  typescript: '从基础类型到项目实践，理解类型系统如何帮助你表达约束、发现问题和整理代码边界。',
 }
 
 export const domainOrder: DomainKey[] = ['javascript', 'react', 'typescript']

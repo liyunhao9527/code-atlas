@@ -17,14 +17,12 @@ if (!domain) {
 <ModuleLayout domain={domain} domains={domains} title="TypeScript | Code Atlas">
   <section class="content-card">
     <header class="note-header">
-      <span class="kicker">Module Home</span>
       <h1>{domain.label}</h1>
       <p class="note-summary">{domain.description}</p>
     </header>
     <div class="note-body">
       <section class="roadmap-hero">
         <div>
-          <p class="demo-eyebrow">Roadmap</p>
           <h2>{typescriptRoadmap.title}</h2>
         </div>
       </section>
@@ -49,7 +47,7 @@ if (!domain) {
                   </ul>
                 </div>
                 <div class="roadmap-list">
-                  <strong>适合 demo</strong>
+                  <strong>练习方向</strong>
                   <ul>
                     {stage.demos.map(demo => (
                       <li>{demo}</li>

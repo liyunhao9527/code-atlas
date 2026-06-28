@@ -39,6 +39,16 @@ Use each file this way:
 - `examples.ts`: write pure TypeScript practice code, types, helpers, sample data, and reusable examples
 - `demo.tsx`: turn examples into an interactive React demo; import types/data/helpers from `examples.ts` when useful
 
+## Reader-Facing Writing
+
+Technical articles in `apps/notes/content/` are for readers, not for agents or maintainers. Write the article like a real technical post:
+
+- Explain the concept, problem, code, tradeoffs, and practice steps from the reader's point of view.
+- Do not include planning notes, AI prompt language, author instructions, or implementation details about the site unless the article is specifically about those details.
+- Avoid AI-flavored filler such as broad promotional claims, grand conclusions, vague "this helps you understand" sentences, and labels like "learning map" or "topic inventory".
+- Prefer concrete examples, observable behavior, and direct explanations over abstract summaries.
+- Use "练习" for reader tasks and phrase them as reader actions, such as "练习时可以观察..." rather than "写 demo 时记录...".
+
 Example:
 
 ```text
